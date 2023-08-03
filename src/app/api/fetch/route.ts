@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     // Get match from the database
     const match = await prisma.urls.findFirst({
         where: {
-            shortenedURL: id
+            shortenedURL: id!
         },
         select: {
             url: true,
