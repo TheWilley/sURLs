@@ -1,7 +1,7 @@
 // app/api/upload
-import clientPromise from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import prisma from '@/lib/prisma';
 
 async function generateUniqueID() {
     const buffer = crypto.randomBytes(3);
@@ -31,17 +31,21 @@ export async function POST(req: Request) {
         }, { status: 400 });
     }
 
-    // Create a client and connect to the database
-    const client = await clientPromise;
-    const db = client.db();
+    // If the url is already in the database, return the object
+    const match = await prisma.urls.findFirst({
+        where: {
+            url: data.url,
+        },
+        select: {
+            url: true,
+            shortenedURL: true
+        }
+    });
 
-    // First check if the url is already in the database
-    const matches = await db.collection('urls').find({ 'url': data.url }).toArray();
-
-    if (matches.length !== 0) {
+    if (match) {
         // Return the object
         return NextResponse.json({
-            response: matches[0],
+            response: match,
             alreadyExists: true
         }, { status: 200 });
     }
@@ -57,7 +61,10 @@ export async function POST(req: Request) {
 
     // Insert the object into the database
     try {
-        db.collection('urls').insertOne(urlObject);
+        // Insert using prisma
+        await prisma.urls.create({
+            data: urlObject
+        });
     } catch (err) {
         return NextResponse.json({
             message: 'Could not insert the object into the database'
