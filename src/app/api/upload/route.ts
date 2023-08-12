@@ -31,6 +31,13 @@ export async function POST(req: Request) {
         }, { status: 400 });
     }
 
+    // Check if the url is smaller than 20 characters
+    if (data.url.length < 15) {
+        return NextResponse.json({
+            message: 'URL must be at least 15 characters long'
+        }, { status: 400 });
+    }
+
     // If the url is already in the database, return the object
     const match = await prisma.urls.findFirst({
         where: {
