@@ -5,7 +5,8 @@ export function middleware(req: NextRequest) {
 
     if (id) {
         // Create a client and connect to the database
-        const url = `${process.env.BASE_URL}/api/fetch?id=${id}`;
+        const base = req.nextUrl.clone().origin;
+        const url = `${base}/api/fetch?id=${id}`;
 
         // Check if the url exists and is not a next.js file
         if (url && !url.includes('_next')) {
@@ -23,7 +24,9 @@ export function middleware(req: NextRequest) {
                     return NextResponse.redirect(data.url);
                 })
                 .catch(() => {
-                    return NextResponse.redirect(`${process.env.BASE_URL}`);
+                    const url = req.nextUrl.clone();
+                    url.pathname = '/';
+                    return NextResponse.redirect(url);
                 });
         } else {
             return NextResponse.next();

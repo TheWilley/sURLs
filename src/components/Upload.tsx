@@ -48,7 +48,7 @@ function Upload() {
                     <div>
                         <hr className="my-2" />
                         <p className="text-center text-gray-700 font-bold">Shortened URL:</p>
-                        <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={`${process.env.BASE_URL}/r/${shortenedURLObject.response.shortenedURL}`} target="_blank" rel="noopener noreferrer"> {`${process.env.BASE_URL}/r/${shortenedURLObject.response.shortenedURL}`}</a></div>
+                        <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={`/r/${shortenedURLObject.response.shortenedURL}`} target="_blank" rel="noopener noreferrer"> {`${window.location.host}/r/${shortenedURLObject.response.shortenedURL}`}</a></div>
                     </div>
                 </div>
             );
