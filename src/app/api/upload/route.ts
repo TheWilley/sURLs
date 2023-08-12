@@ -3,11 +3,36 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '@/lib/prisma';
 
+async function getMatch(id: string) {
+    const match = await prisma.urls.findFirst({
+        where: {
+            shortenedURL: id
+        },
+        select: {
+            shortenedURL: true
+        }
+    });
+
+    // If the match exists, return 
+    if (match) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 async function generateUniqueID() {
-    const buffer = crypto.randomBytes(3);
-    const token = buffer.toString('hex');
+    let tokenIsUnique = false;
+    let token = '';
+
+    while (!tokenIsUnique) {
+        const buffer = crypto.randomBytes(3);
+        token = buffer.toString('hex');
+        if(!await getMatch(token)) tokenIsUnique = true;
+    }
     return token;
 }
+
 
 export async function POST(req: Request) {
     const data = await req.json();
