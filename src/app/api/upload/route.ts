@@ -4,7 +4,6 @@ import { uid } from 'uid';
 import prisma from '@/lib/prisma';
 import config from '@/config';
 
-
 async function getMatch(id: string) {
     const match = await prisma.urls.findFirst({
         where: {

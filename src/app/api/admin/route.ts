@@ -2,6 +2,24 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import config from '@/config';
 
+async function getMatch(id: string) {
+    const match = await prisma.urls.findFirst({
+        where: {
+            shortenedURL: id
+        },
+        select: {
+            shortenedURL: true
+        }
+    });
+
+    // If the match exists, return 
+    if (match) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 async function checkAuthentication(authentication: string | null) {
     const password = process.env.AUTHENTICATION_PASSWORD || '';
     if (authentication !== password) {
@@ -83,6 +101,13 @@ export async function PUT(req: Request) {
 
     const data = await req.json();
     const id = data.newID.trim();
+
+    // Check if the id already exists
+    if(await getMatch(id)) {
+        return NextResponse.json({
+            message: 'ID already exists'
+        }, { status: 400 });
+    }
 
     // Check if the id is empty
     if (id.length == 0) {
