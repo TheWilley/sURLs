@@ -98,7 +98,7 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
                     <label htmlFor="authentication" className="block text-gray-700 font-bold mb-1">Password</label>
                     <input type="password" id="authentication" name="authentication" placeholder="Enter password" className="border border-gray-400 p-2 w-full rounded-md" value={password} onChange={e => setPassword(e.target.value)} required />
                 </div>
-                <div className='flex justify-center'>
+                <div className='flex justify-center h-14'>
                     <button type='submit' className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' value='update'> {updateLoading ? <Loader /> : 'Save Changes'} </button>
                     <button type='submit' className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' value='delete'>  {deleteLoading ? <Loader /> : 'Delete'} </button>
                 </div>
@@ -113,7 +113,7 @@ function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null, se
         return (
             <>
                 <div className="mt-4 p-2 bg-white shadow-md rounded-md">
-                    <table className="table-auto border-collapse border border-gray-100 w-full">
+                    <table className="table-fixed border-collapse border border-gray-100 w-full">
                         <thead>
                             <tr>
                                 <th className="px-4 py-2 bg-gray-100 text-gray-800 border border-gray-400">Original URL</th>
@@ -124,17 +124,17 @@ function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null, se
                         <tbody>
                             <tr>
                                 <td className="px-4 py-2 border border-gray-400 w-1/3">
-                                    <a href={`${props.shortenedURLObject.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                                    <a href={`${props.shortenedURLObject.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 text-center break-words">
                                         {`${props.shortenedURLObject.url}`}
                                     </a>
                                 </td>
                                 <td className="px-4 py-2 border border-gray-400 w-1/3">
-                                    <a href={`/r/${props.shortenedURLObject.shortenedURL}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                                    <a href={`/r/${props.shortenedURLObject.shortenedURL}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 text-center break-words">
                                         {`${window.location.host}/r/${props.shortenedURLObject.shortenedURL}`}
                                     </a>
                                 </td>
                                 <td className="px-4 py-2 border border-gray-400 w-1/3">
-                                    <p rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                                    <p rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 text-center break-words">
                                         {`${props.shortenedURLObject.shortenedURL}`}
                                     </p>
                                 </td>
@@ -185,12 +185,12 @@ export default function Admin() {
         <>
             <h1 className='text-6xl text-center m-5 font-bold'> sURLs Admin </h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-md p-6 flex w-full justify-center">
-                <div className='flex space-x-2'>
+                <div className='flex space-x-2 h-10'>
                     <div>
                         <input value={URLorID} onChange={(e) => setURLorID(e.target.value)} type="text" id="urlorid" name="urlorid" placeholder="Enter a URL or ID" className="border border-gray-400 p-2 w-full rounded-md" required />
                     </div>
                     <div className='text-center'>
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-20 h-full rounded-md">
                             {fetchLoading ? <Loader /> : 'Fetch'}
                         </button>
                     </div>

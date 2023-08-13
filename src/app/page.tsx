@@ -83,18 +83,18 @@ function UploadComponent() {
                 </label>
             </div>
             <div>
-                <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-md p-6 flex w-full justify-center">
+                <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-md p-6 flex w-full justify-center h-24">
                     <div className='flex space-x-2'>
                         <div>
-                            <input value={url} onChange={(e) => setUrl(e.target.value)} type="text" id="url" name="url" placeholder="Enter a URL" className="border border-gray-400 p-2 w-full rounded-md" required />
+                            <input value={url} onChange={(e) => setUrl(e.target.value)} type="text" id="url" name="url" placeholder="Enter a URL" className="border border-gray-400 p-2 w-full h-full rounded-md" required />
                         </div>
                         {customIDEnabled && (
                             <div>
-                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full rounded-md" required />
+                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full h-full rounded-md" required />
                             </div>
                         )}
                         <div className='text-center'>
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
+                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-36 h-full">
                                 {loading ? <Loader /> : 'Shorten'}
                             </button>
                         </div>
