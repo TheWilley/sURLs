@@ -1,8 +1,7 @@
 'use client';
+import Loader from '@/components/Loader';
 import axios from 'axios';
 import { useState } from 'react';
-import loader from '../../assets/loader.svg';
-import Image from 'next/image';
 
 type ShortenedURLObject = {
     success: boolean, alreadyExists: boolean,
@@ -76,8 +75,8 @@ export default function Admin() {
                     </div>
                     <div className="mt-4 p-2 bg-white shadow-md rounded-md">
                         <div className='flex justify-center'>
-                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2'> {updateLoading ? <Image src={loader} width={25} height={25} alt='Loader' className='w-full h-full' /> : 'Save Changes'} </button>
-                            <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleDelete}> {deleteLoading ? <Image src={loader} width={25} height={25} alt='Loader' className='w-full h-full' /> : 'Delete'} </button>
+                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2'> {updateLoading ? <Loader />  : 'Save Changes'} </button>
+                            <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleDelete}> {deleteLoading ? <Loader /> : 'Delete'} </button>
                         </div>
                     </div>
                 </>
@@ -95,7 +94,7 @@ export default function Admin() {
                     </div>
                     <div className='text-center'>
                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-                            {fetchLoading ? <Image src={loader} width={25} height={25} alt='Loader' className='w-full h-full' /> : 'Fetch'}
+                            {fetchLoading ? <Loader />: 'Fetch'}
                         </button>
                     </div>
                 </div>

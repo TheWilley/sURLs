@@ -1,8 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useState } from 'react';
-import loader from '../assets/loader.svg';
-import Image from 'next/image';
+import Loader from '@/components/Loader';
 
 type ShortenedURLObject = {
     success: boolean, alreadyExists: boolean,
@@ -85,7 +84,7 @@ function UploadComponent() {
                         )}
                         <div className='text-center'>
                             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-                                {loading ? <Image src={loader} width={25} height={25} alt='Loader' className='w-full h-full' /> : 'Shorten'}
+                                {loading ? <Loader /> : 'Shorten'}
                             </button>
                         </div>
                     </div>
