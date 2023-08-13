@@ -79,7 +79,7 @@ function Upload() {
                         </div>
                         {customIDEnabled && (
                             <div>
-                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full rounded-md" />
+                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full rounded-md" required/>
                             </div>
                         )}
                         <div className='text-center'>
@@ -95,6 +95,7 @@ function Upload() {
             <div>
                 <ShortenedURL />
                 {error && <p className="text-center text-red-500 font-bold mt-4">{error}</p>}
+                {shortenedURLObject?.alreadyExists && <p className="text-center text-green-500 font-bold mt-4">This URL has already been shortened</p>}
             </div>
         </div>
     );

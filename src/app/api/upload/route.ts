@@ -82,6 +82,7 @@ export async function POST(req: Request) {
         }
     });
 
+    // If the URL already exists, return it
     if (match) {
         // Return the object
         return NextResponse.json({
