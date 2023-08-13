@@ -24,7 +24,7 @@ export default function Admin() {
         // Set loading to true
         setFetchLoading(true);
 
-        axios.get(`/api/fetch-admin?id=${URLorID}`, {
+        axios.get(`/api/admin?id=${URLorID}`, {
         }).then((response) => {
             setShortenedURLObject({ ...response.data });
             setError('');
@@ -44,7 +44,7 @@ export default function Admin() {
         // Set loading to true
         setDeleteLoading(true);
 
-        axios.delete(`/api/delete-admin?id=${shortenedURLObject?.shortenedURL}`)
+        axios.delete(`/api/admin?id=${shortenedURLObject?.shortenedURL}`)
             .then((response) => {
                 setError('');
                 setMessage(response.data.message);
@@ -56,6 +56,26 @@ export default function Admin() {
                 setMessage('');
                 setDeleteLoading(false);
             });
+    };
+
+    const handleUpdate = (event: any) => {
+        event.preventDefault();
+
+        // Set loading to true
+        setUpdateLoading(true);
+
+        axios.put(`/api/admin?id=${shortenedURLObject?.shortenedURL}`, {
+            url: event.target[0].value,
+            shortenedURL: event.target[1].value,
+        }).then((response) => {
+            setError('');
+            setMessage(response.data.message);
+            setUpdateLoading(false);
+        }).catch((error) => {
+            setError(error.response.data.message);
+            setMessage('');
+            setUpdateLoading(false);
+        });
     };
 
     const ShortenedURL = () => {
@@ -75,7 +95,7 @@ export default function Admin() {
                     </div>
                     <div className="mt-4 p-2 bg-white shadow-md rounded-md">
                         <div className='flex justify-center'>
-                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2'> {updateLoading ? <Loader />  : 'Save Changes'} </button>
+                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleUpdate}> {updateLoading ? <Loader />  : 'Save Changes'} </button>
                             <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleDelete}> {deleteLoading ? <Loader /> : 'Delete'} </button>
                         </div>
                     </div>
