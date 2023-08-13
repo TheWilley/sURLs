@@ -43,7 +43,12 @@ export async function DELETE(req: Request) {
 export async function GET(req: Request) {
     // Get the id from the query
     const url = new URL(req.url);
-    const id = url.searchParams.get('id')?.trim();
+    let id = url.searchParams.get('id')?.trim();
+
+    // Check if id contains a '/r/' prefix and the base url
+    if (id?.match(req.headers.get('host') + '/r/')) {
+        id = id.split('/r/')[1];
+    }
 
     // Get match from the database
     const match = await prisma.urls.findFirst({
