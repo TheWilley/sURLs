@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import Loader from '@/components/Loader';
+import Message from '@/components/Message';
 
 type ShortenedURLObject = {
     success: boolean, alreadyExists: boolean,
@@ -15,6 +16,7 @@ function UploadComponent() {
     const [shortenedURLObject, setShortenedURLObject] = useState<ShortenedURLObject | null>(null);
     const [url, setUrl] = useState('');
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [customID, setCustomID] = useState('');
     const [customIDEnabled, setCustomIDEnabled] = useState(false);
@@ -30,6 +32,9 @@ function UploadComponent() {
             customID: customIDEnabled ? event.target[1].value : null,
         }).then((response) => {
             setShortenedURLObject({ ...response.data });
+            if({...response.data}.alreadyExists) {
+                setMessage('This URL has already been shortened');
+            }
             setError('');
             setLoading(false);
         }).catch((error) => {
@@ -94,8 +99,7 @@ function UploadComponent() {
             </div>
             <div>
                 <ShortenedURL />
-                {error && <p className="text-center text-red-500 font-bold mt-4">{error}</p>}
-                {shortenedURLObject?.alreadyExists && <p className="text-center text-green-500 font-bold mt-4">This URL has already been shortened</p>}
+                <Message error={error} message={message}/>
             </div>
         </>
     );
