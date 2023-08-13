@@ -12,7 +12,26 @@ type ShortenedURLObject = {
     }
 };
 
+function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null }) {
+    if (props.shortenedURLObject?.response) {
+        return (
+            <div className="mt-4 p-2 bg-white shadow-md rounded-md">
+                <div className='w-full'>
+                    <p className="text-center text-gray-700 font-bold">Original URL:</p>
+                    <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={props.shortenedURLObject.response.url} target="_blank" rel="noopener noreferrer"> {props.shortenedURLObject.response.url} </a></div>
+                </div>
+                <div>
+                    <hr className="my-2" />
+                    <p className="text-center text-gray-700 font-bold">Shortened URL:</p>
+                    <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={`/r/${props.shortenedURLObject.response.shortenedURL}`} target="_blank" rel="noopener noreferrer"> {`${window.location.host}/r/${props.shortenedURLObject.response.shortenedURL}`}</a></div>
+                </div>
+            </div>
+        );
+    }
+}
+
 function UploadComponent() {
+    // States
     const [shortenedURLObject, setShortenedURLObject] = useState<ShortenedURLObject | null>(null);
     const [url, setUrl] = useState('');
     const [error, setError] = useState('');
@@ -21,12 +40,17 @@ function UploadComponent() {
     const [customID, setCustomID] = useState('');
     const [customIDEnabled, setCustomIDEnabled] = useState(false);
 
+    /**
+     * Handles form submit
+     * @param event The event when the form is submitted
+     */
     const handleSubmit = (event: any) => {
         event.preventDefault();
 
         // Set loading to true
         setLoading(true);
 
+        // Send upload request
         axios.post('/api/upload', {
             url: event.target[0].value,
             customID: customIDEnabled ? event.target[1].value : null,
@@ -42,24 +66,6 @@ function UploadComponent() {
             setShortenedURLObject(null);
             setLoading(false);
         });
-    };
-
-    const ShortenedURL = () => {
-        if (shortenedURLObject?.response) {
-            return (
-                <div className="mt-4 p-2 bg-white shadow-md rounded-md">
-                    <div className='w-full'>
-                        <p className="text-center text-gray-700 font-bold">Original URL:</p>
-                        <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={shortenedURLObject.response.url} target="_blank" rel="noopener noreferrer"> {shortenedURLObject.response.url} </a></div>
-                    </div>
-                    <div>
-                        <hr className="my-2" />
-                        <p className="text-center text-gray-700 font-bold">Shortened URL:</p>
-                        <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={`/r/${shortenedURLObject.response.shortenedURL}`} target="_blank" rel="noopener noreferrer"> {`${window.location.host}/r/${shortenedURLObject.response.shortenedURL}`}</a></div>
-                    </div>
-                </div>
-            );
-        }
     };
 
     return (
@@ -98,7 +104,7 @@ function UploadComponent() {
 
             </div>
             <div>
-                <ShortenedURL />
+                <ShortenedURL shortenedURLObject={shortenedURLObject}/>
                 <Message error={error} message={message}/>
             </div>
         </>

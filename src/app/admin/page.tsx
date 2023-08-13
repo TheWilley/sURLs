@@ -12,16 +12,22 @@ type ShortenedURLObject = {
 }
 
 function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage: React.Dispatch<React.SetStateAction<string>>, setError: React.Dispatch<React.SetStateAction<string>>, setShortenedURLObject: React.Dispatch<React.SetStateAction<ShortenedURLObject | null>> }) {
+    // States
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
     const [newID, setNewID] = useState('');
 
+    /**
+     * Handle delete button click
+     * @param event The event when the delete button is clicked
+     */
     const handleDelete = (event: any) => {
         event.preventDefault();
 
         // Set loading to true
         setDeleteLoading(true);
 
+        // Send delete request
         axios.delete(`/api/admin?id=${props.shortenedURLObject?.shortenedURL}`)
             .then((response) => {
                 props.setError('');
@@ -36,12 +42,17 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
             });
     };
 
+    /**
+     * Handle update button click
+     * @param event The event when the update button is clicked
+     */
     const handleUpdate = (event: any) => {
         event.preventDefault();
 
         // Set loading to true
         setUpdateLoading(true);
 
+        // Send update request
         axios.put('/api/admin', {
             id: props.shortenedURLObject?.shortenedURL,
             newID: newID
@@ -69,6 +80,7 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
 }
 
 function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null, setMessage: React.Dispatch<React.SetStateAction<string>>, setError: React.Dispatch<React.SetStateAction<string>>, setShortenedURLObject: React.Dispatch<React.SetStateAction<ShortenedURLObject | null>> }) {
+    // Check if shortenedURLObject exists before rendering
     if (props.shortenedURLObject) {
         return (
             <>
@@ -109,18 +121,24 @@ function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null, se
 }
 
 export default function Admin() {
+    // States
     const [URLorID, setURLorID] = useState('');
     const [fetchLoading, setFetchLoading] = useState(false);
     const [shortenedURLObject, setShortenedURLObject] = useState<ShortenedURLObject | null>(null);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
+    /**
+     * Handles form submit
+     * @param event The event when the form is submitted
+     */
     const handleSubmit = (event: any) => {
         event.preventDefault();
 
         // Set loading to true
         setFetchLoading(true);
 
+        // Send get request
         axios.get(`/api/admin?id=${URLorID}`, {
         }).then((response) => {
             setShortenedURLObject({ ...response.data });
