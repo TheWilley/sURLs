@@ -12,7 +12,7 @@ type ShortenedURLObject = {
     }
 };
 
-function Upload() {
+function UploadComponent() {
     const [shortenedURLObject, setShortenedURLObject] = useState<ShortenedURLObject | null>(null);
     const [url, setUrl] = useState('');
     const [error, setError] = useState('');
@@ -59,7 +59,8 @@ function Upload() {
     };
 
     return (
-        <div className='max-w-md'>
+        <>
+            <h1 className='text-6xl text-center m-5 font-bold'> sURLs </h1>
             <div className='bg-white shadow-md rounded-md p-6 mb-4 flex w-full justify-center'>
                 <label className="flex items-center">
                     <input
@@ -79,7 +80,7 @@ function Upload() {
                         </div>
                         {customIDEnabled && (
                             <div>
-                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full rounded-md" required/>
+                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full rounded-md" required />
                             </div>
                         )}
                         <div className='text-center'>
@@ -97,8 +98,8 @@ function Upload() {
                 {error && <p className="text-center text-red-500 font-bold mt-4">{error}</p>}
                 {shortenedURLObject?.alreadyExists && <p className="text-center text-green-500 font-bold mt-4">This URL has already been shortened</p>}
             </div>
-        </div>
+        </>
     );
 }
 
-export default Upload; 
+export default UploadComponent; 
