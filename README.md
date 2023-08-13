@@ -26,6 +26,9 @@ sURLs allows you to edit or remove your URLS in the `/admin` page. However, to h
 AUTHENTICATION_PASSWORD=<password>
 ```
 
+## Docker
+sURLs can also be run in a Docker container. To do so, first build the image by running `docker build -t surls .`. Then run the container by running `docker run -p 3000:3000 surls`.
+
 ## Configuration
 You can configure sURLs by going to `config.ts` in the `src` directory. Options include (among others):
 - `custom_id_regex`: A regex which the custom ID has to match. Defaults to `^[a-zA-Z0-9_-]+$`.
