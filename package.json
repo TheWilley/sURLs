@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup_sqlite": "prisma generate --schema ./prisma-sqlite/schema.prisma && prisma migrate dev --name init --schema ./prisma-sqlite/schema.prisma" ,
-    "setup_postgre": "prisma generate --schema ./prisma-postgres/schema.prisma && prisma migrate dev --name init --schema ./prisma-postgres/schema.prisma" ,
+    "setup_sqlite": "prisma generate --schema ./prisma-sqlite/schema.prisma && prisma migrate dev --name init --schema ./prisma-sqlite/schema.prisma",
+    "setup_postgre": "prisma generate --schema ./prisma-postgres/schema.prisma && prisma migrate dev --name init --schema ./prisma-postgres/schema.prisma",
     "lint": "next lint"
   },
   "dependencies": {
@@ -18,7 +18,8 @@
     "mongodb": "^5.7.0",
     "next": "13.4.12",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "uid": "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.4.6",

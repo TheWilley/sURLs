@@ -17,6 +17,8 @@ function Upload() {
     const [url, setUrl] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [customID, setCustomID] = useState('');
+    const [customIDEnabled, setCustomIDEnabled] = useState(false);
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -25,7 +27,8 @@ function Upload() {
         setLoading(true);
 
         axios.post('/api/upload', {
-            url: event.target[0].value
+            url: event.target[0].value,
+            customID: customIDEnabled ? event.target[1].value : null,
         }).then((response) => {
             setShortenedURLObject({ ...response.data });
             setError('');
@@ -57,12 +60,28 @@ function Upload() {
 
     return (
         <div className='max-w-md'>
+            <div className='bg-white shadow-md rounded-md p-6 mb-4 flex w-full justify-center'>
+                <label className="flex items-center">
+                    <input
+                        type="checkbox"
+                        checked={customIDEnabled}
+                        onChange={() => setCustomIDEnabled(!customIDEnabled)}
+                        className="form-checkbox border border-gray-400 p-2 rounded-md"
+                    />
+                    <span className="ml-2">Use custom ID</span>
+                </label>
+            </div>
             <div>
                 <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-md p-6 flex w-full justify-center">
                     <div className='flex space-x-2'>
                         <div>
                             <input value={url} onChange={(e) => setUrl(e.target.value)} type="text" id="url" name="url" placeholder="Enter a URL" className="border border-gray-400 p-2 w-full rounded-md" required />
                         </div>
+                        {customIDEnabled && (
+                            <div>
+                                <input value={customID} onChange={(e) => setCustomID(e.target.value)} type="text" id="customID" name="customID" placeholder="Custom ID" className="border border-gray-400 p-2 w-full rounded-md" />
+                            </div>
+                        )}
                         <div className='text-center'>
                             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
                                 {loading ? <Image src={loader} width={25} height={25} alt='Loader' className='w-full h-full' /> : 'Shorten'}
@@ -70,6 +89,8 @@ function Upload() {
                         </div>
                     </div>
                 </form>
+
+
             </div>
             <div>
                 <ShortenedURL />

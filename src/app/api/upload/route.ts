@@ -1,8 +1,9 @@
 // app/api/upload
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { uid } from 'uid';
 import prisma from '@/lib/prisma';
 import config from '@/config';
+
 
 async function getMatch(id: string) {
     const match = await prisma.urls.findFirst({
@@ -22,18 +23,24 @@ async function getMatch(id: string) {
     }
 }
 
+async function useCustomID(id: string) {
+    if (!await getMatch(id)) {
+        return id;
+    } else {
+        return null;
+    }
+}
+
 async function generateUniqueID() {
     let tokenIsUnique = false;
     let token = '';
 
     while (!tokenIsUnique) {
-        const buffer = crypto.randomBytes(config.shortened_url_bytes || 3);
-        token = buffer.toString('hex');
-        if(!await getMatch(token)) tokenIsUnique = true;
+        token = uid(config.generated_id_length || 5);
+        if (!await getMatch(token)) tokenIsUnique = true;
     }
     return token;
 }
-
 
 export async function POST(req: Request) {
     const data = await req.json();
@@ -84,7 +91,26 @@ export async function POST(req: Request) {
     }
 
     // Generate a unique ID
-    let id = await generateUniqueID();
+    // FIXME: React Hook "useCustomID" is called conditionally. This does not make any sense this this IS NOT A REACT HOOK!
+    // eslint-disable-next-line
+    const id = data.customID ? await useCustomID(data.customID) : await generateUniqueID();
+
+    // If the id is null, return an error
+    if (!id) {
+        return NextResponse.json({
+            message: 'ID already exists'
+        }, { status: 500 });
+
+    // If the id is too long, return an error
+    } else if (data.customID && id.length > config.custom_id_length) {
+        return NextResponse.json({
+            message: `ID is too long (max ${config.custom_id_length} characters}`
+        }, { status: 400 });
+    } else if (data.cusotmID && !config.custom_id_regex.test(id)) {
+        return NextResponse.json({
+            message: 'ID contains invalid characters'
+        }, { status: 400 });
+    }
 
     // Create a new object with the url and the id
     const urlObject = {
@@ -107,6 +133,6 @@ export async function POST(req: Request) {
     // Return the object
     return NextResponse.json({
         response: urlObject,
-        alreadyExists: false
+        alreadyExists: false,
     }, { status: 200 });
 }
