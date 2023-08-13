@@ -107,6 +107,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
             message: `ID is too long (max ${config.custom_id_length} characters}`
         }, { status: 400 });
+    // If the id contains invalid characters, return an error
     } else if (data.customID && !config.custom_id_regex.test(id)) {
         return NextResponse.json({
             message: 'ID contains invalid characters'

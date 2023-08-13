@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import config from '@/config';
 
 export async function DELETE(req: Request) {
     // Get the id from the query
     const url = new URL(req.url);
-    const id = url.searchParams.get('id');
+    const id = url.searchParams.get('id')?.trim();
 
     // Get match from the database
     await prisma.urls.delete({
@@ -27,7 +28,7 @@ export async function DELETE(req: Request) {
 export async function GET(req: Request) {
     // Get the id from the query
     const url = new URL(req.url);
-    const id = url.searchParams.get('id');
+    const id = url.searchParams.get('id')?.trim();
 
     // Get match from the database
     const match = await prisma.urls.findFirst({
@@ -54,42 +55,34 @@ export async function GET(req: Request) {
 }
 
 export async function PUT(req: Request) {
-    // Get the id from the query
-    const url = new URL(req.url);
-    const fullURL = url.searchParams.get('fullURL');
-    const shortenedURL = url.searchParams.get('shortenedURL');
+    const data = await req.json();
+    const id = data.newID.trim();
 
-    // Check which one is defined and update accordingly
-    if (shortenedURL && !fullURL) {
-        // Get match from the database
-        await prisma.urls.update({
-            where: {
-                shortenedURL: shortenedURL!
-            },
-            data: {
-                shortenedURL: shortenedURL!
-            },
-        }).catch(() => {
-            return NextResponse.json({
-                message: 'Could not update entry'
-            }, { status: 500 });
-        });
-    } else if (fullURL && !shortenedURL) {
-        // Get match from the database
-        await prisma.urls.update({
-            where: {
-                url: fullURL!
-            },
-            data: {
-                url: fullURL!,
-            },
-        }).catch(() => {
-            return NextResponse.json({
-                message: 'Could not update entry'
-            }, { status: 500 });
-        });
+    // If the id is too long, return an error
+    if (data.newID && id.length > config.custom_id_length) {
+        return NextResponse.json({
+            message: `ID is too long (max ${config.custom_id_length} characters}`
+        }, { status: 400 });
+    // If the id contains invalid characters, return an error
+    } else if (data.newID && !config.custom_id_regex.test(id)) {
+        return NextResponse.json({
+            message: 'ID contains invalid characters'
+        }, { status: 400 });
     }
 
-    return NextResponse.json({ message: 'Successfully updated entry' }, { status: 200 });
+    // Get match from the database
+    await prisma.urls.update({
+        where: {
+            shortenedURL: data.id!
+        },
+        data: {
+            shortenedURL: data.newID!
+        },
+    }).catch(() => {
+        return NextResponse.json({
+            message: 'Could not update entry'
+        }, { status: 500 });
+    });
 
+    return NextResponse.json({ message: 'Successfully updated entry' }, { status: 200 });
 }

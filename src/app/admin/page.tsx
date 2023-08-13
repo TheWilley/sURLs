@@ -2,6 +2,8 @@
 import Loader from '@/components/Loader';
 import axios from 'axios';
 import { useState } from 'react';
+import Message from '@/components/Message';
+import React from 'react';
 
 type ShortenedURLObject = {
     success: boolean, alreadyExists: boolean,
@@ -9,14 +11,109 @@ type ShortenedURLObject = {
     shortenedURL: string,
 }
 
+function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage: React.Dispatch<React.SetStateAction<string>>, setError: React.Dispatch<React.SetStateAction<string>>, setShortenedURLObject: React.Dispatch<React.SetStateAction<ShortenedURLObject | null>> }) {
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [updateLoading, setUpdateLoading] = useState(false);
+    const [newID, setNewID] = useState('');
+
+    const handleDelete = (event: any) => {
+        event.preventDefault();
+
+        // Set loading to true
+        setDeleteLoading(true);
+
+        axios.delete(`/api/admin?id=${props.shortenedURLObject?.shortenedURL}`)
+            .then((response) => {
+                props.setError('');
+                props.setMessage(response.data.message);
+                props.setShortenedURLObject(null);
+                setDeleteLoading(false);
+            }
+            ).catch((error) => {
+                props.setError(error.response.data.message);
+                props.setMessage('');
+                setDeleteLoading(false);
+            });
+    };
+
+    const handleUpdate = (event: any) => {
+        event.preventDefault();
+
+        // Set loading to true
+        setUpdateLoading(true);
+
+        axios.put('/api/admin', {
+            id: props.shortenedURLObject?.shortenedURL,
+            newID: newID
+        }).then((response) => {
+            props.setError('');
+            props.setMessage(response.data.message);
+            props.setShortenedURLObject(null);
+            setUpdateLoading(false);
+        }).catch((error) => {
+            props.setError(error.response.data.message);
+            props.setMessage('');
+            setUpdateLoading(false);
+        });
+    };
+
+    return (
+        <div className="mt-4 p-2 bg-white shadow-md rounded-md">
+            <input type="text" id="newID" name="newID" placeholder="Enter a ID" className="border border-gray-400 p-2 w-full mt-2 rounded-md" value={newID} onChange={e => setNewID(e.target.value)} />
+            <div className='flex justify-center'>
+                <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleUpdate}> {updateLoading ? <Loader /> : 'Save Changes'} </button>
+                <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleDelete}> {deleteLoading ? <Loader /> : 'Delete'} </button>
+            </div>
+        </div>
+    );
+}
+
+function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null, setMessage: React.Dispatch<React.SetStateAction<string>>, setError: React.Dispatch<React.SetStateAction<string>>, setShortenedURLObject: React.Dispatch<React.SetStateAction<ShortenedURLObject | null>> }) {
+    if (props.shortenedURLObject) {
+        return (
+            <>
+                <div className="mt-4 p-2 bg-white shadow-md rounded-md">
+                    <table className="table-auto border-collapse border border-gray-100 w-full">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 bg-gray-100 text-gray-800 border border-gray-400">Original URL</th>
+                                <th className="px-4 py-2 bg-gray-100 text-gray-800 border border-gray-400">Shortened URL</th>
+                                <th className="px-4 py-2 bg-gray-100 text-gray-800 border border-gray-400">ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="px-4 py-2 border border-gray-400 w-1/3">
+                                    <a href={`${props.shortenedURLObject.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                                        {`${props.shortenedURLObject.url}`}
+                                    </a>
+                                </td>
+                                <td className="px-4 py-2 border border-gray-400 w-1/3">
+                                    <a href={`/r/${props.shortenedURLObject.shortenedURL}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                                        {`${window.location.host}/r/${props.shortenedURLObject.shortenedURL}`}
+                                    </a>
+                                </td>
+                                <td className="px-4 py-2 border border-gray-400 w-1/3">
+                                    <p rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                                        {`${props.shortenedURLObject.shortenedURL}`}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <Form shortenedURLObject={props.shortenedURLObject} setError={props.setError} setMessage={props.setMessage} setShortenedURLObject={props.setShortenedURLObject} />
+            </>
+        );
+    }
+}
+
 export default function Admin() {
     const [URLorID, setURLorID] = useState('');
     const [fetchLoading, setFetchLoading] = useState(false);
-    const [deleteLoading, setDeleteLoading] = useState(false);
-    const [updateLoading, setUpdateLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
     const [shortenedURLObject, setShortenedURLObject] = useState<ShortenedURLObject | null>(null);
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -31,77 +128,11 @@ export default function Admin() {
             setMessage('');
             setFetchLoading(false);
         }).catch((error) => {
-            setError(error.response.data.message);
             setShortenedURLObject(null);
+            setError(error.response.data.message);
             setMessage('');
             setFetchLoading(false);
         });
-    };
-
-    const handleDelete = (event: any) => {
-        event.preventDefault();
-
-        // Set loading to true
-        setDeleteLoading(true);
-
-        axios.delete(`/api/admin?id=${shortenedURLObject?.shortenedURL}`)
-            .then((response) => {
-                setError('');
-                setMessage(response.data.message);
-                setShortenedURLObject(null);
-                setDeleteLoading(false);
-            }
-            ).catch((error) => {
-                setError(error.response.data.message);
-                setMessage('');
-                setDeleteLoading(false);
-            });
-    };
-
-    const handleUpdate = (event: any) => {
-        event.preventDefault();
-
-        // Set loading to true
-        setUpdateLoading(true);
-
-        axios.put(`/api/admin?id=${shortenedURLObject?.shortenedURL}`, {
-            url: event.target[0].value,
-            shortenedURL: event.target[1].value,
-        }).then((response) => {
-            setError('');
-            setMessage(response.data.message);
-            setUpdateLoading(false);
-        }).catch((error) => {
-            setError(error.response.data.message);
-            setMessage('');
-            setUpdateLoading(false);
-        });
-    };
-
-    const ShortenedURL = () => {
-        if (shortenedURLObject) {
-            return (
-                <>
-                    <div className="mt-4 p-2 bg-white shadow-md rounded-md">
-                        <div className='w-full'>
-                            <p className="text-center text-gray-700 font-bold">Original URL:</p>
-                            <div className="block text-center text-blue-500 font-bold break-all p-2"><input type='text' value={shortenedURLObject.url} className='text-center w-full border rounded p-2' rel="noopener noreferrer" /></div>
-                        </div>
-                        <div>
-                            <hr className="my-2" />
-                            <p className="text-center text-gray-700 font-bold">Shortened URL:</p>
-                            <div className="block text-center text-blue-500 font-bold break-all p-2"><input type='text' value={shortenedURLObject.shortenedURL} className='text-center w-full border rounded p-2' rel="noopener noreferrer" /></div>
-                        </div>
-                    </div>
-                    <div className="mt-4 p-2 bg-white shadow-md rounded-md">
-                        <div className='flex justify-center'>
-                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleUpdate}> {updateLoading ? <Loader />  : 'Save Changes'} </button>
-                            <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleDelete}> {deleteLoading ? <Loader /> : 'Delete'} </button>
-                        </div>
-                    </div>
-                </>
-            );
-        }
     };
 
     return (
@@ -114,15 +145,14 @@ export default function Admin() {
                     </div>
                     <div className='text-center'>
                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
-                            {fetchLoading ? <Loader />: 'Fetch'}
+                            {fetchLoading ? <Loader /> : 'Fetch'}
                         </button>
                     </div>
                 </div>
             </form>
             <div>
-                <ShortenedURL />
-                {message && <p className="text-center text-green-500 font-bold mt-4">{message}</p>}
-                {error && <p className="text-center text-red-500 font-bold mt-4">{error}</p>}
+                <ShortenedURL shortenedURLObject={shortenedURLObject} setError={setError} setMessage={setMessage} setShortenedURLObject={setShortenedURLObject} />
+                <Message message={message} error={error} />
             </div>
         </>
     );
