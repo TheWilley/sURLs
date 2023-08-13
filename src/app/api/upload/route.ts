@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '@/lib/prisma';
+import config from '@/config';
 
 async function getMatch(id: string) {
     const match = await prisma.urls.findFirst({
@@ -26,7 +27,7 @@ async function generateUniqueID() {
     let token = '';
 
     while (!tokenIsUnique) {
-        const buffer = crypto.randomBytes(3);
+        const buffer = crypto.randomBytes(config.shortened_url_bytes || 3);
         token = buffer.toString('hex');
         if(!await getMatch(token)) tokenIsUnique = true;
     }
