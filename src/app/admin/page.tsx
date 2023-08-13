@@ -16,6 +16,18 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
     const [newID, setNewID] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+
+        // Check if value is delete or update
+        if(event.nativeEvent.submitter.value === 'delete') {
+            handleDelete(event);
+        } else if(event.nativeEvent.submitter.value === 'update') {
+            handleUpdate(event);
+        }
+    };
 
     /**
      * Handle delete button click
@@ -28,18 +40,21 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
         setDeleteLoading(true);
 
         // Send delete request
-        axios.delete(`/api/admin?id=${props.shortenedURLObject?.shortenedURL}`)
-            .then((response) => {
-                props.setError('');
-                props.setMessage(response.data.message);
-                props.setShortenedURLObject(null);
-                setDeleteLoading(false);
+        axios.delete(`/api/admin?id=${props.shortenedURLObject?.shortenedURL}`, {
+            headers: {
+                Authorization: password
             }
-            ).catch((error) => {
-                props.setError(error.response.data.message);
-                props.setMessage('');
-                setDeleteLoading(false);
-            });
+        }).then((response) => {
+            props.setError('');
+            props.setMessage(response.data.message);
+            props.setShortenedURLObject(null);
+            setDeleteLoading(false);
+        }
+        ).catch((error) => {
+            props.setError(error.response.data.message);
+            props.setMessage('');
+            setDeleteLoading(false);
+        });
     };
 
     /**
@@ -55,7 +70,11 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
         // Send update request
         axios.put('/api/admin', {
             id: props.shortenedURLObject?.shortenedURL,
-            newID: newID
+            newID: newID,
+        }, {
+            headers: {
+                Authorization: password
+            }
         }).then((response) => {
             props.setError('');
             props.setMessage(response.data.message);
@@ -70,11 +89,20 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
 
     return (
         <div className="mt-4 p-2 bg-white shadow-md rounded-md">
-            <input type="text" id="newID" name="newID" placeholder="Enter a ID" className="border border-gray-400 p-2 w-full mt-2 rounded-md" value={newID} onChange={e => setNewID(e.target.value)} />
-            <div className='flex justify-center'>
-                <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleUpdate}> {updateLoading ? <Loader /> : 'Save Changes'} </button>
-                <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' onClick={handleDelete}> {deleteLoading ? <Loader /> : 'Delete'} </button>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label htmlFor="newID" className="block text-gray-700 font-bold mb-1">New ID</label>
+                    <input type="text" id="newID" name="newID" placeholder="Enter a ID" className="border border-gray-400 p-2 w-full rounded-md" value={newID} onChange={e => setNewID(e.target.value)} />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="authentication" className="block text-gray-700 font-bold mb-1">Password</label>
+                    <input type="password" id="authentication" name="authentication" placeholder="Enter password" className="border border-gray-400 p-2 w-full rounded-md" value={password} onChange={e => setPassword(e.target.value)} required />
+                </div>
+                <div className='flex justify-center'>
+                    <button type='submit' className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' value='update'> {updateLoading ? <Loader /> : 'Save Changes'} </button>
+                    <button type='submit' className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full m-2' value='delete'>  {deleteLoading ? <Loader /> : 'Delete'} </button>
+                </div>
+            </form>
         </div>
     );
 }

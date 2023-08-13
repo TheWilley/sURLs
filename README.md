@@ -20,6 +20,12 @@ Run `npm run build` to build the project. Then run `npm start` to start the serv
 ### Development
 Run `npm run dev` to start the development server.
 
+### Authentication
+sURLs allows you to edit or remove your URLS in the `/admin` page. However, to hinder unauthenticated access, authentication has been added by means of a password. To set it, create a `.env` file in the root directory of this project and add the following lines:
+```env
+AUTHENTICATION_PASSWORD=<password>
+```
+
 ## Configuration
 You can configure sURLs by going to `config.ts` in the `src` directory. Options include (among others):
 - `custom_id_regex`: A regex which the custom ID has to match. Defaults to `^[a-zA-Z0-9_-]+$`.

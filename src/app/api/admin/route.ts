@@ -2,7 +2,22 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import config from '@/config';
 
+async function checkAuthentication(authentication: string | null) {
+    const password = process.env.AUTHENTICATION_PASSWORD || '';
+    if (authentication !== password) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 export async function DELETE(req: Request) {
+    if (!await checkAuthentication(req.headers.get('Authorization'))) {
+        return NextResponse.json({
+            message: 'Unauthorized'
+        }, { status: 401 });
+    }
+
     // Get the id from the query
     const url = new URL(req.url);
     const id = url.searchParams.get('id')?.trim();
@@ -55,16 +70,29 @@ export async function GET(req: Request) {
 }
 
 export async function PUT(req: Request) {
+    if (!await checkAuthentication(req.headers.get('Authorization'))) {
+        return NextResponse.json({
+            message: 'Unauthorized (wrong password)'
+        }, { status: 401 });
+    }
+
     const data = await req.json();
     const id = data.newID.trim();
 
+    // Check if the id is empty
+    if (id.length == 0) {
+        return NextResponse.json({
+            message: 'ID cannot be empty'
+        }, { status: 400 });
+    }
     // If the id is too long, return an error
-    if (data.newID && id.length > config.custom_id_length) {
+    else if (data.newID && id.length > config.custom_id_length) {
         return NextResponse.json({
             message: `ID is too long (max ${config.custom_id_length} characters}`
         }, { status: 400 });
+    }
     // If the id contains invalid characters, return an error
-    } else if (data.newID && !config.custom_id_regex.test(id)) {
+    else if (data.newID && !config.custom_id_regex.test(id)) {
         return NextResponse.json({
             message: 'ID contains invalid characters'
         }, { status: 400 });
