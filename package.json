@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup_sqlite": "prisma generate --schema ./databases/prisma-sqlite/schema.prisma && prisma migrate dev --name init --schema ./databases/prisma-sqlite/schema.prisma",
-    "setup_postgres": "prisma generate --schema ./databases/prisma-postgres/schema.prisma && prisma migrate dev --name init --schema ./databases/prisma-postgres/schema.prisma",
+    "setup_postgres": "prisma generate && prisma migrate dev",
     "lint": "next lint"
   },
   "dependencies": {

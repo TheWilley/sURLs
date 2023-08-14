@@ -1,0 +1,10 @@
+version: '3'
+services:
+  surls:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    image: nextjs-docker
+    container_name: surls-container
