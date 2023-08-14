@@ -70,7 +70,7 @@ Do step 1-5, then run `npm run dev` to start the development server.
    By default, the container will be available on port `3000`. If you want to use a different port, modify the `docker-compose.yml` file. Change the first value in the `ports` option (e.g., `3000:3000` to `8080:3000` for port `8080`).
 
 4. **Run Prisma Migrations:** 
-   Access the command line interface (CLI) of the container by running:
+   If hosting locally, access the command line interface (CLI) of the container by running:
 
 ```bash
 docker exec -it surls-container /bin/sh
@@ -87,6 +87,8 @@ If prompted to install Prisma, press `y` and wait for the installation to comple
 ```bash
 exit
 ```
+
+If hosting on a server such as Azure or docker hub, access the CLI of the container trough it and run the same commands.
 
 5. **Access sURLs Service:** 
    With the container set up and migrations completed, you can now access the sURLs service using the port you specified.
