@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node .next/standalone/server.js",
+    "start": "next start",
     "setup_postgres": "prisma generate && prisma migrate dev",
     "lint": "next lint"
   },

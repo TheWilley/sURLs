@@ -3,7 +3,7 @@ const nextConfig = {
     env: {
         BASE_URL: process.env.BASE_URL
     },
-    output: 'standalone',
+    output: process.env.USE_DOCKER === true ? 'standalone' : undefined
 }
 
 module.exports = nextConfig

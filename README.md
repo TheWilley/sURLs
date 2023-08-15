@@ -19,14 +19,16 @@ by running it in a Docker container.
    You'll need a PostgreSQL database for storing sURLs. If you don't have one already, create a new database or use an existing one. Make sure you have your database credentials ready.
 
 4. **Create a `.env` file:** 
-   Rename `.env.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
+   Rename `.env.local.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
 
    ```env
    POSTGRES_URL=postgres://<username>:<password>@<host>:<port>/<database>
    AUTHENTICATION_PASSWORD=<password>
+   USE_DOCKER=false
    ```
 
-   Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs.
+   * `POSTGRES_URL` - Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
+   * `AUTHENTICATION_PASSWORD` Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
 
 5. **Setup PostgreSQL Tables:** 
    Run the following command to set up the necessary tables in your PostgreSQL database:
@@ -48,14 +50,16 @@ Do step 1-5, then run `npm run dev` to start the development server.
 ### Running in a Docker container
 
 1. **Create a `.env` file:** 
-   Rename `.env.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
+   Rename `.env.docker.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
 
    ```env
    POSTGRES_URL=postgres://<username>:<password>@<host>:<port>/<database>
    AUTHENTICATION_PASSWORD=<password>
+   USE_DOCKER=true
    ```
 
-   Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs.
+   * `POSTGRES_URL` - Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
+   * `AUTHENTICATION_PASSWORD` Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
    
 2. **Build Docker Image:** 
    Build the Docker image by running the following command:
@@ -82,25 +86,25 @@ Do step 1-5, then run `npm run dev` to start the development server.
 5. **Run Prisma Migrations:** 
    If hosting locally, access the command line interface (CLI) of the container by running:
 
-```bash
-docker exec -it surls-container /bin/sh
-```
+   ```bash
+   docker exec -it surls-container /bin/sh
+   ```
 
-Inside the container CLI, execute the following command to run Prisma migrations:
+   Inside the container CLI, execute the following command to run Prisma migrations:
 
-```bash
-npx prisma migrate dev
-```
+   ```bash
+   npx prisma migrate dev
+   ```
 
-If prompted to install Prisma, press `y` and wait for the installation to complete. Ignore any errors about already migrated databases. Exit the CLI afterward by running:
+   If prompted to install Prisma, press `y` and wait for the installation to complete. Ignore any errors about already migrated databases. Exit the CLI afterward by running:
 
-```bash
-exit
-```
+   ```bash
+   exit
+   ```
 
-If hosting on a server such as Azure or docker hub, access the CLI of the container trough it and run the same commands.
+   If hosting on a server such as Azure or docker hub, access the CLI of the container trough it and run the same commands.
 
-5. **Access sURLs Service:** 
+6. **Access sURLs Service:** 
    With the container set up and migrations completed, you can now access the sURLs service using the port you specified.
 
 ## Authentication
