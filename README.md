@@ -1,6 +1,6 @@
 # sURLs - Simple URL shortener
 
-A simple URL shortener written in Next.js Postgres.
+A simple URL shortener written in Next.js and Postgres.
 
 ## Installation & Running
 
@@ -27,8 +27,8 @@ by running it in a Docker container.
    USE_DOCKER=false
    ```
 
-   * `POSTGRES_URL` - Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
-   * `AUTHENTICATION_PASSWORD` Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
+   * `POSTGRES_URL` — Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
+   * `AUTHENTICATION_PASSWORD` — Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
 
 5. **Setup PostgreSQL Tables:** 
    Run the following command to set up the necessary tables in your PostgreSQL database:
@@ -58,8 +58,8 @@ Do step 1-5, then run `npm run dev` to start the development server.
    USE_DOCKER=true
    ```
 
-   * `POSTGRES_URL` - Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
-   * `AUTHENTICATION_PASSWORD` Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
+   * `POSTGRES_URL` — Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
+   * `AUTHENTICATION_PASSWORD` — Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
    
 2. **Build Docker Image:** 
    Build the Docker image by running the following command:
