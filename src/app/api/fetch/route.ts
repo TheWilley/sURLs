@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export async function GET(req: Request) {
     // Get the id from the query
     const url = new URL(req.url);
-    const id = url.searchParams.get('id');
+    const id = url.searchParams.get('id')?.trim();
 
     // Get match from the database
     const match = await prisma.urls.findFirst({

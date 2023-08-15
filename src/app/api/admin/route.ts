@@ -36,7 +36,7 @@ export async function DELETE(req: Request) {
         }, { status: 401 });
     }
 
-    // Get the id from the query
+    // Get the id from the request
     const url = new URL(req.url);
     const id = url.searchParams.get('id')?.trim();
 
@@ -59,7 +59,7 @@ export async function DELETE(req: Request) {
 }
 
 export async function GET(req: Request) {
-    // Get the id from the query
+    // Get the id from the request
     const url = new URL(req.url);
     let id = url.searchParams.get('id')?.trim();
 
@@ -99,6 +99,7 @@ export async function PUT(req: Request) {
         }, { status: 401 });
     }
 
+    // Get the id from the request
     const data = await req.json();
     const id = data.newID.trim();
 

@@ -53,7 +53,7 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
         setDeleteLoading(true);
 
         // Send delete request
-        axios.delete(`/api/admin?id=${props.shortenedURLObject?.shortenedURL}`, {
+        axios.delete(`/api/admin?id=${encodeURIComponent(String(props.shortenedURLObject?.shortenedURL))}`, {
             headers: {
                 Authorization: password
             }
@@ -180,7 +180,7 @@ export default function Admin() {
         setFetchLoading(true);
 
         // Send get request
-        axios.get(`/api/admin?id=${URLorID}`, {
+        axios.get(`/api/admin?id=${encodeURIComponent(URLorID)}`, {
         }).then((response) => {
             setShortenedURLObject({ ...response.data });
             setError('');
