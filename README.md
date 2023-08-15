@@ -19,14 +19,14 @@ by running it in a Docker container.
    You'll need a PostgreSQL database for storing sURLs. If you don't have one already, create a new database or use an existing one. Make sure you have your database credentials ready.
 
 4. **Create a `.env` file:** 
-   Create a `.env` file in the root directory of the project and add the following lines:
+   Rename `.env.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
 
    ```env
    POSTGRES_URL=postgres://<username>:<password>@<host>:<port>/<database>
    AUTHENTICATION_PASSWORD=<password>
    ```
 
-   Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your actual database credentials.
+   Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs.
 
 5. **Setup PostgreSQL Tables:** 
    Run the following command to set up the necessary tables in your PostgreSQL database:
@@ -47,14 +47,24 @@ Do step 1-5, then run `npm run dev` to start the development server.
 
 ### Running in a Docker container
 
-1. **Build Docker Image:** 
+1. **Create a `.env` file:** 
+   Rename `.env.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
+
+   ```env
+   POSTGRES_URL=postgres://<username>:<password>@<host>:<port>/<database>
+   AUTHENTICATION_PASSWORD=<password>
+   ```
+
+   Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs.
+   
+2. **Build Docker Image:** 
    Build the Docker image by running the following command:
 
    ```bash
    docker compose build
    ```
 
-2. **Run Docker Container:** 
+3. **Run Docker Container:** 
    Run the Docker container using either of the following commands:
    - To run the container in the foreground:
    ```bash
@@ -66,10 +76,10 @@ Do step 1-5, then run `npm run dev` to start the development server.
    docker compose up -d
    ```
 
-3. **Configure Container Port (Optional):** 
+4. **Configure Container Port (Optional):** 
    By default, the container will be available on port `3000`. If you want to use a different port, modify the `docker-compose.yml` file. Change the first value in the `ports` option (e.g., `3000:3000` to `8080:3000` for port `8080`).
 
-4. **Run Prisma Migrations:** 
+5. **Run Prisma Migrations:** 
    If hosting locally, access the command line interface (CLI) of the container by running:
 
 ```bash
