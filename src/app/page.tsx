@@ -71,6 +71,7 @@ function UploadComponent() {
             setLoading(false);
         }).catch((error) => {
             setError(error.response.data.message);
+            setMessage('');
             setShortenedURLObject(null);
             setLoading(false);
         });
