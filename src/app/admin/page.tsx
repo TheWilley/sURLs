@@ -11,6 +11,14 @@ type ShortenedURLObject = {
     shortenedURL: string,
 }
 
+function handleLongString(string: string) {
+    if (string.length > 70) {
+        return string.substring(0, 50) + '...';
+    } else {
+        return string;
+    }
+}
+
 function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage: React.Dispatch<React.SetStateAction<string>>, setError: React.Dispatch<React.SetStateAction<string>>, setShortenedURLObject: React.Dispatch<React.SetStateAction<ShortenedURLObject | null>> }) {
     // States
     const [deleteLoading, setDeleteLoading] = useState(false);
@@ -22,9 +30,9 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
         event.preventDefault();
 
         // Check if value is delete or update
-        if(event.nativeEvent.submitter.value === 'delete') {
+        if (event.nativeEvent.submitter.value === 'delete') {
             handleDelete(event);
-        } else if(event.nativeEvent.submitter.value === 'update') {
+        } else if (event.nativeEvent.submitter.value === 'update') {
             handleUpdate(event);
         }
     };
@@ -35,6 +43,11 @@ function Form(props: { shortenedURLObject: ShortenedURLObject | null, setMessage
      */
     const handleDelete = (event: any) => {
         event.preventDefault();
+
+        // Add confirm dialog
+        if (!window.confirm('Are you sure you want to delete this shortened URL?')) {
+            return;
+        }
 
         // Set loading to true
         setDeleteLoading(true);
@@ -125,7 +138,7 @@ function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null, se
                             <tr>
                                 <td className="px-4 py-2 border border-gray-400 w-1/3">
                                     <a href={`${props.shortenedURLObject.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 text-center break-words">
-                                        {`${props.shortenedURLObject.url}`}
+                                        {`${handleLongString(props.shortenedURLObject.url)}`}
                                     </a>
                                 </td>
                                 <td className="px-4 py-2 border border-gray-400 w-1/3">
