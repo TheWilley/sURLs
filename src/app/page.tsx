@@ -64,6 +64,7 @@ function UploadComponent() {
             customID: customIDEnabled ? event.target[1].value : null,
         }).then((response) => {
             setShortenedURLObject({ ...response.data });
+            setMessage('URL shortened successfully');
             if({...response.data}.alreadyExists) {
                 setMessage('This URL has already been shortened');
             }
