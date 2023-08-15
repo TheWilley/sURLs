@@ -60,15 +60,18 @@ Do step 1-5, then run `npm run dev` to start the development server.
 
    * `POSTGRES_URL` — Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
    * `AUTHENTICATION_PASSWORD` — Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
+
+2. **Configure Container Port (Optional):** 
+   By default, the container will be available on port `3000`. If you want to use a different port, modify the `docker-compose.yml` file. Change the first value in the `ports` option (e.g., `3000:3000` to `8080:3000` for port `8080`).
    
-2. **Build Docker Image:** 
+3. **Build Docker Image:** 
    Build the Docker image by running the following command:
 
    ```bash
    docker compose build
    ```
 
-3. **Run Docker Container:** 
+4. **Run Docker Container:** 
    Run the Docker container using either of the following commands:
    - To run the container in the foreground:
    ```bash
@@ -79,9 +82,6 @@ Do step 1-5, then run `npm run dev` to start the development server.
    ```bash
    docker compose up -d
    ```
-
-4. **Configure Container Port (Optional):** 
-   By default, the container will be available on port `3000`. If you want to use a different port, modify the `docker-compose.yml` file. Change the first value in the `ports` option (e.g., `3000:3000` to `8080:3000` for port `8080`).
 
 5. **Run Prisma Migrations:** 
    If hosting locally, access the command line interface (CLI) of the container by running:
