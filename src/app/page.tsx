@@ -12,13 +12,21 @@ type ShortenedURLObject = {
     }
 };
 
+function handleLongString(string: string) {
+    if (string.length > 150) {
+        return string.substring(0, 50) + '...';
+    } else {
+        return string;
+    }
+}
+
 function ShortenedURL(props: { shortenedURLObject: ShortenedURLObject | null }) {
     if (props.shortenedURLObject?.response) {
         return (
             <div className="mt-4 p-2 bg-white shadow-md rounded-md">
                 <div className='w-full'>
                     <p className="text-center text-gray-700 font-bold">Original URL:</p>
-                    <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={props.shortenedURLObject.response.url} target="_blank" rel="noopener noreferrer"> {props.shortenedURLObject.response.url} </a></div>
+                    <div className="block text-center text-blue-500 font-bold break-all p-2"><a href={props.shortenedURLObject.response.url} target="_blank" rel="noopener noreferrer"> {handleLongString(props.shortenedURLObject.response.url)} </a></div>
                 </div>
                 <div>
                     <hr className="my-2" />
