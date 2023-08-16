@@ -6,7 +6,7 @@ A simple URL shortener written in Next.js and Postgres.
 You can run sURLs in two ways: either by running it directly on your machine, or by running it in a Docker container. 
 
 ### Prerequisites
-You'll need a PostgreSQL database for storing sURLs. If you don't have one already, create a new database or use an existing one. Make sure you have your database credentials ready.
+You'll need a PostgreSQL database for storing sURLs. If using docker, a database will be bundled automatically, but if running directly on your machine you have to provide your own.
 
 You will also need a `.env` file to configure the database url and admin password. Rename `.env.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
 ```env
