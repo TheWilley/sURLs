@@ -32,7 +32,7 @@ async function checkAuthentication(authentication: string | null) {
 export async function DELETE(req: Request) {
     if (!await checkAuthentication(req.headers.get('Authorization'))) {
         return NextResponse.json({
-            message: 'Unauthorized'
+            message: 'Unauthorized (wrong password)'
         }, { status: 401 });
     }
 
