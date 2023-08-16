@@ -44,6 +44,9 @@ ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Need this to migrate
+# Causes "EACCES: permission denied, unlink '/app/node_modules/.prisma/client/index.js'" since it's trying to run the 'generate command' again, but works fine
 RUN npm i @prisma/client
 
 USER nextjs

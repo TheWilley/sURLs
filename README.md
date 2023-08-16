@@ -71,33 +71,12 @@ AUTHENTICATION_PASSWORD=<password>
    docker compose up -d
    ```
 
-5. **Run Prisma Migrations:** 
-   If hosting locally, access the command line interface (CLI) of the container by running:
-
-   ```bash
-   docker exec -it surls-container /bin/sh
-   ```
-
-   Inside the container CLI, execute the following command to run Prisma migrations:
-
-   ```bash
-   npx prisma migrate dev
-   ```
-
-   If prompted to install Prisma, press `y` and wait for the installation to complete. Ignore any errors about already migrated databases. Exit the CLI afterward by running:
-
-   ```bash
-   exit
-   ```
-
-   If hosting on a server such as Azure or docker hub, access the CLI of the container trough it and run the same commands to migrate prisma.
-
-6. **Access sURLs Service:** 
+5. **Access sURLs Service:** 
    With the container set up and migrations completed, you can now access the sURLs service using the port you specified.
 
 ### Development
 
-Do step 1-5 of "[Running on your machine](#Running-on-your-machine)", then run `npm run dev` to start the development server.
+Do step 1-5 of "[Running on your machine](#Running-on-your-machine)" but do `npm run setup_postgres_dev` instead on step 3, then run `npm run dev` to start the development server. 
 
 ## Authentication
 

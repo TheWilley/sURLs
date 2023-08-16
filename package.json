@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup_postgres": "prisma generate && prisma migrate dev",
+    "setup_postgres": "prisma generate && prisma migrate deploy",
+    "setup_postgres_dev": "prisma generate && prisma migrate dev",
     "start:migrate:prod": "prisma migrate deploy && node server.js",
     "lint": "next lint"
   },
