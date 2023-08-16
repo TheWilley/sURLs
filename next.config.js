@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
-    output: process.env.USE_DOCKER === true ? 'standalone' : undefined
+    // Local
+    output: undefined
+
+    // Docker
+    //output: 'standalone'
 }
 
 module.exports = nextConfig
