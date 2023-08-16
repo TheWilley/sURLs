@@ -1,10 +1,36 @@
 version: '3'
 services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: surls
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   surls:
+    stdin_open: true
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: surls-container
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - "3000:3000"
-    image: nextjs-docker
-    container_name: surls-container
+    restart: always
+
+volumes:
+  postgres-data:

@@ -2,10 +2,10 @@
 
 const nextConfig = {
     // Local
-    output: undefined
+    //output: undefined
 
     // Docker
-    //output: 'standalone'
+    output: 'standalone'
 }
 
 module.exports = nextConfig
