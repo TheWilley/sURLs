@@ -14,37 +14,31 @@ Furthermore, you'll need a `.env` file to properly configure the database URL an
 
 ### Running on your machine
 
-1. **Clone the Repository:** 
-   Begin by cloning the repository to your local machine.
-
-2. **Install dependencies:** 
+1. **Install dependencies:** 
    Run `npm install` to install all dependencies.
 
-3. **Setup PostgreSQL Tables:** 
+2. **Setup PostgreSQL Tables:** 
    Run the following command to set up the necessary tables in your PostgreSQL database:
 
    ```bash
    npm run setup_postgres
    ```
 
-4. **Set output mode**
+3. **Set output mode**
    Set the `output` attribute inside `next.config.js` to `undefined`.
 
-5. **Build the project:** 
+4. **Build the project:** 
    Run `npm run build` to build the project.
 
-6. **Start the server:** 
+5. **Start the server:** 
    Run `npm start` to start the server.
 
 ### Running in a Docker container
 
-1. **Configure Container Port (Optional):** 
-   By default, the container will be available on port `3000`. If you want to use a different port, modify the `docker-compose.yml` file. Change the first value in the `ports` option (e.g., `3000:3000` to `8080:3000` for port `8080`).
-
-2. **Set output mode**
+1. **Set output mode**
    Set the `output` attribute inside `next.config.js` to `standalone`.
 
-3. **Build & Run Docker Container:** 
+2. **Build & Run Docker Container:** 
    You can start the Docker container using one of the following commands:
    - To launch sURLs along with a bundled Postgres database, use:
    ```bash
@@ -56,7 +50,7 @@ Furthermore, you'll need a `.env` file to properly configure the database URL an
    docker compose -f app.yml up -d
    ```
 
-4. **Access sURLs Service:** 
+3. **Access sURLs Service:** 
    With the container set up and migrations completed, you can now access the sURLs service using the port you specified.
 
 ### Development
