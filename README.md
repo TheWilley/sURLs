@@ -10,7 +10,7 @@ To run sURLs, you must have a PostgreSQL database in place for storing data. In 
 
 Furthermore, you'll need a `.env` file to properly configure the database URL and the administrative password:
 * If you're utilizing Docker, rename `.env.docker.example` to `.env.docker` and update both instances of `<password>` with your actual password (these can be anything if you opt for `common.yml`)
-* If you're running sURLs locally, rename `env.example` to `.env` and replace the placeholders `<connection_url>` and ´<password>` with your respective connection URL and password.
+* If you're running sURLs locally, rename `env.example` to `.env` and replace the placeholders `<connection_url>` and `<password>` with your respective connection URL and password.
 
 ### Running on your machine
 
