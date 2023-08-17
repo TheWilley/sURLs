@@ -24,7 +24,7 @@ Furthermore, you'll need a `.env` file to properly configure the database URL an
    npm run setup_postgres
    ```
 
-3. **Set output mode**
+3. **Set output mode:**
    Set the `output` attribute inside `next.config.js` to `undefined`.
 
 4. **Build the project:** 
