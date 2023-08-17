@@ -35,7 +35,7 @@ async function generateUniqueID() {
     let token = '';
 
     while (!tokenIsUnique) {
-        token = uid(config.generated_id_length || 5);
+        token = uid(config.id_length || 5);
         if (!await getMatch(token)) tokenIsUnique = true;
     }
     return token;
@@ -102,9 +102,9 @@ export async function POST(req: Request) {
         }, { status: 500 });
 
     // If the id is too long, return an error
-    } else if (data.customID && id.length > config.custom_id_length) {
+    } else if (data.customID && id.length > config.id_length) {
         return NextResponse.json({
-            message: `ID is too long (max ${config.custom_id_length} characters}`
+            message: `ID is too long (max ${config.id_length} characters}`
         }, { status: 400 });
     // If the id contains invalid characters, return an error
     } else if (data.customID && !config.custom_id_regex.test(id)) {

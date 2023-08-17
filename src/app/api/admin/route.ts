@@ -116,10 +116,11 @@ export async function PUT(req: Request) {
             message: 'ID cannot be empty'
         }, { status: 400 });
     }
+    
     // If the id is too long, return an error
-    else if (data.newID && id.length > config.custom_id_length) {
+    else if (data.newID && id.length > config.id_length) {
         return NextResponse.json({
-            message: `ID is too long (max ${config.custom_id_length} characters}`
+            message: `ID is too long (max ${config.id_length} characters}`
         }, { status: 400 });
     }
     // If the id contains invalid characters, return an error

@@ -68,7 +68,7 @@ password. To set it, edit the `AUTHENTICATION_PASSWORD` in your env file.
 You can configure sURLs by going to `config.ts` in the `src` directory. Options
 include (among others):
 
-- `custom_id_regex`: A regex which the custom ID has to match. Defaults to
+- `custom_id_regex`: A regex which the custom ID has to match. Default
   `^[a-zA-Z0-9_-]+$`.
-- `custom_id_length`: The length of the custom ID. Defaults to `5`.
-- `generated_id_length`: The length of the generated ID. Defaults to `5`.
+- `id_length`: The length of the custom ID. Default `5`.
+
