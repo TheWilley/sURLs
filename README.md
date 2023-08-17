@@ -8,14 +8,9 @@ You can run sURLs in two ways: either by running it directly on your machine, or
 ### Prerequisites
 You'll need a PostgreSQL database for storing sURLs. If using docker, a database will be bundled automatically, but if running directly on your machine you have to provide your own.
 
-You will also need a `.env` file to configure the database url and admin password. Rename `.env.example` to `.env` or create a `.env` file in the root directory of the project and add the following lines:
-```env
-POSTGRES_URL=postgres://<username>:<password>@<host>:<port>/<database>
-AUTHENTICATION_PASSWORD=<password>
-```
-
-* `POSTGRES_URL` — Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
-* `AUTHENTICATION_PASSWORD` — Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs.
+You will also need a `.env` file to configure the database url and admin password.  
+* If using docker, rename `.env.docker.example` to `.env.docker` and replace both `<password>` placeholders (each should ideally be unique). 
+* If running locally,rename `env.example` to `.env` and replace the `<connection_url>` and `password` placeholders.
 
 ### Running on your machine
 

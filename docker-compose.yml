@@ -1,16 +1,13 @@
 version: '3'
 services:
   postgres:
+    env_file:
+      - .env.docker
     image: postgres:latest
     container_name: postgres
     hostname: postgres
     ports:
       - 5432:5432
-    environment:
-      # TODO: https://stackoverflow.com/questions/29377853/how-can-i-use-environment-variables-in-docker-compose
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: surls
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -21,6 +18,8 @@ services:
       retries: 5
 
   surls:
+    env_file:
+      - .env.docker
     stdin_open: true
     build:
       context: .
