@@ -1,4 +1,4 @@
-# sURLs - Simple URL shortener
+# sURLs - Simple URL Shortener
 
 A simple URL shortener written in Next.js and Postgres.
 
@@ -6,11 +6,11 @@ A simple URL shortener written in Next.js and Postgres.
 You can run sURLs in two ways: either by running it directly on your machine, or by running it in a Docker container. 
 
 ### Prerequisites
-You'll need a PostgreSQL database for storing sURLs. If using docker, a database will be bundled automatically, but if running directly on your machine you have to provide your own.
+To run sURLs, you must have a PostgreSQL database in place for storing data. In the context of Docker, a database will be automatically bundled when employing the `common.yml` configuration. However, if you opt for `app.yml` (which solely dockerizes sURLs without including any databases), or if you run sURLs directly on your local machine, you will need to arrange for your own database.
 
-You will also need a `.env` file to configure the database url and admin password.  
-* If using docker, rename `.env.docker.example` to `.env.docker` and replace both `<password>` placeholders (each should ideally be unique). 
-* If running locally,rename `env.example` to `.env` and replace the `<connection_url>` and `password` placeholders.
+Furthermore, you'll need a `.env` file to properly configure the database URL and the administrative password:
+* If you're utilizing Docker, rename `.env.docker.example` to `.env.docker` and update both instances of `<password>` with your actual password (these can be anything if you opt for `common.yml`)
+* If you're running sURLs locally, rename `env.example` to `.env` and replace the placeholders `<connection_url>` and ´<password>` with your respective connection URL and password.
 
 ### Running on your machine
 
@@ -19,9 +19,6 @@ You will also need a `.env` file to configure the database url and admin passwor
 
 2. **Install dependencies:** 
    Run `npm install` to install all dependencies.
-
-   * `POSTGRES_URL` — Replace `<username>`, `<password>`, `<host>`, `<port>`, and `<database>` with your database credentials. 
-   * `AUTHENTICATION_PASSWORD` — Replace `<password>` with a password of your choice. This password will be used to authenticate you when you want to edit or remove your URLs. 
 
 3. **Setup PostgreSQL Tables:** 
    Run the following command to set up the necessary tables in your PostgreSQL database:
@@ -46,41 +43,31 @@ You will also need a `.env` file to configure the database url and admin passwor
 
 2. **Set output mode**
    Set the `output` attribute inside `next.config.js` to `standalone`.
-   
-3. **Build Docker Image:** 
-   Build the Docker image by running the following command:
 
+3. **Build & Run Docker Container:** 
+   You can start the Docker container using one of the following commands:
+   - To launch sURLs along with a bundled Postgres database, use:
    ```bash
-   docker compose build
+   docker compose -f common.yml up -d
    ```
 
-4. **Run Docker Container:** 
-   Run the Docker container using either of the following commands:
-   - To run the container in the foreground:
+   - If you want to run only sURLs without the bundled database, use:
    ```bash
-   docker compose up
+   docker compose -f app.yml up -d
    ```
 
-   - To run the container in the background:
-   ```bash
-   docker compose up -d
-   ```
-
-5. **Access sURLs Service:** 
+4. **Access sURLs Service:** 
    With the container set up and migrations completed, you can now access the sURLs service using the port you specified.
 
 ### Development
 
 Do step 1-5 of "[Running on your machine](#Running-on-your-machine)" but do `npm run setup_postgres_dev` instead on step 3, then run `npm run dev` to start the development server. 
 
-## Authentication
+## Admin page
 
 sURLs allows you to edit or remove your URLS in the `/admin` page. However, to
 hinder unauthenticated access, authentication has been added by means of a
-password. To set it, edit the following line in the `.env` file in the root directory of this project:
-```env
-AUTHENTICATION_PASSWORD=<password>
-```
+password. To set it, edit the `AUTHENTICATION_PASSWORD` in your env file. 
 
 ## Configuration
 
