@@ -2,7 +2,7 @@ version: '3'
 services:
   postgres:
     env_file:
-      - .env.docker
+      - .env.docker.common
     image: postgres:latest
     container_name: postgres
     hostname: postgres
@@ -19,11 +19,11 @@ services:
 
   surls:
     env_file:
-      - .env.docker
+      - .env.docker.common
     stdin_open: true
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./docker/Dockerfile
     container_name: surls-container
     depends_on:
       postgres:

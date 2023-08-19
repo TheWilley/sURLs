@@ -15,16 +15,14 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+COPY ./docker/next.config.docker.js next.config.js
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
-
-# RUN yarn build
 
 # If using npm comment out above and use below instead
 RUN npx prisma generate
@@ -41,10 +39,6 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Need this to migrate
-# Causes "EACCES: permission denied, unlink '/app/node_modules/.prisma/client/index.js'" since it's trying to run the 'generate command' again, but works fine
-RUN npm i @prisma/client
-
 USER nextjs
 
 COPY --from=builder /app/public ./public
@@ -59,4 +53,4 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME localhost
 
-CMD npx prisma migrate dev && node server.js
+CMD npx prisma migrate deploy && node server.js
