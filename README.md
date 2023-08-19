@@ -33,6 +33,9 @@ Furthermore, you'll need a `.env` file to properly configure the database URL an
 5. **Start the server:** 
    Run `npm start` to start the server.
 
+6. **Access sURLs Service:** 
+   You can now access the sURLs service at [http://localhost:3000](http://localhost:3000).
+
 ### Running in a Docker container
 
 1. **Set output mode**
@@ -51,7 +54,7 @@ Furthermore, you'll need a `.env` file to properly configure the database URL an
    ```
 
 3. **Access sURLs Service:** 
-   With the container set up and migrations completed, you can now access the sURLs service using the port you specified.
+   With the container set up and migrations completed, you can now access the sURLs service at [http://localhost:3000](http://localhost:3000).
 
 ### Development
 
