@@ -1,5 +1,9 @@
 {
   "name": "surls",
+  "description": "A simple URL shortener written in Next.js and Postgres",
+  "repository": "https://github.com/TheWilley/sURLs",
+  "bugs": "https://github.com/TheWilley/sURLs/issues",
+  "author": "TheWilley",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -31,5 +35,6 @@
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
-  }
+  },
+  "license": "MIT"
 }
