@@ -12,7 +12,7 @@ To ensure proper configuration of the database URL and the administrative passwo
 
    * Running on Docker:
       * If you opt for `docker/common.yml`, duplicate `docker/.env.docker.common.example`, then rename the copy to `.env.docker.common`. Afterward, modify the values for the `POSTGRES_PASSWORD` and `AUTHENTICATION_PASSWORD` properties as desired.
-      * If you opt for `docker/app.yml`, replicate `docker/.env.docker.app.example`, then change the name to `.env.docker.app`. Update the `POSTGRES_URL` property to match the details of your external database. Also, set the `AUTHENTICATION_PASSWORD` property to your preferred password.
+      * If you opt for `docker/app.yml`, duplicate `docker/.env.docker.app.example`, then change the name to `.env.docker.app`. Update the `POSTGRES_URL` property to match the details of your external database. Also, set the `AUTHENTICATION_PASSWORD` property to your preferred password.
 
    * Running locally:
      * Duplicate `env.example` and name the duplicate as `.env`. Then, replace the values of the `POSTGRES_URL` property to match the details of your external database. Also, set the `AUTHENTICATION_PASSWORD` property to your preferred password.
